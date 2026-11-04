@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERBOS REGULARES -AR ( presente)</title>
+    <style>
+        :root {
+            --primary-blue: #1a365d;
+            --accent-blue: #2b6cb0;
+            --bg-light: #f7fafc;
+            --text-dark: #2d3748;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 10px;
+            line-height: 1.4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: var(--primary-blue);
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #718096;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            font-size: 15px;
+        }
+        .tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .card-box {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #ffffff;
+            padding: 25px 20px;
+            text-align: center;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .card-back {
+            background: #ebf8ff;
+            border-color: #bee3f8;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: var(--accent-blue);
+        }
+        /* Estilos para el Reto con aire y simetría */
+        .quiz-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .quiz-desc {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .options-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        .option-btn {
+            background: #edf2f7;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .option-btn:hover {
+            background: #e2e8f0;
+        }
+        .option-btn.correct {
+            background: #c6f6d5 !important;
+            border-color: #38a169 !important;
+            color: #22543d !important;
+        }
+        .option-btn.incorrect {
+            background: #fed7d7 !important;
+            border-color: #e53e3e !important;
+            color: #742a2a !important;
+        }
+        .score-display {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            color: var(--primary-blue);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>VERBOS REGULARES -AR ( presente)</h1>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(0)">Tarjetas</div>
+        <div class="tab" onclick="switchTab(1)">Reto</div>
+    </div>
+
+    <!-- sección 1: tarjetas -->
+    <div class="section active" id="section-0">
+        <div class="card-box" id="flashcard" onclick="flipCard()">
+            <div id="card-content">
+                <p id="card-verb" style="font-size: 24px; font-weight: bold; color: var(--primary-blue); margin: 0 0 10px 0;">trabajar</p>
+                <span style="font-size: 12px; color: #718096;">Toca la tarjeta para ver el equivalente en inglés</span>
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="prevCard()">Anterior</button>
+            <span id="card-counter" style="font-weight: bold; font-size: 14px;">1 / 30</span>
+            <button onclick="nextCard()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- sección 2: reto -->
+    <div class="section" id="section-1">
+        <div class="quiz-card">
+            <div style="font-size: 12px; color: #718096; font-weight: bold; margin-bottom: 10px;" id="quiz-counter">Pregunta 1 de 30</div>
+            <div class="quiz-desc" id="quiz-desc">You do your job at the embassy every day.</div>
+            <div class="options-stack" id="quiz-options">
+                <!-- Se llenan por JS -->
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="prevQuiz()">Anterior</button>
+            <button onclick="nextQuiz()">Siguiente</button>
+        </div>
+        <div class="score-display" id="score-text">Puntaje final: 0 / 30</div>
+    </div>
+</div>
+
+<script>
+    const vocabulary = [
+        {verb: "trabajar", trans: "To work at the embassy", desc: "You do your job at the embassy every day.", options: ["visitar", "trabajar", "estudiar"]},
+        {verb: "gestionar", trans: "To handle a request", desc: "You handle a request and follow the necessary steps until it is completed.", options: ["gestionar", "conversar", "firmar"]},
+        {verb: "coordinar", trans: "To coordinate a meeting", desc: "You make sure that everyone agrees on the time and arrangements for a meeting.", options: ["archivar", "estudiar", "coordinar"]},
+        {verb: "preparar", trans: "To prepare documents", desc: "You get the documents and information ready before a meeting.", options: ["preparar", "llamar", "visitar"]},
+        {verb: "organizar", trans: "To organize a visit", desc: "You arrange the activities, people and materials needed for an institutional visit.", options: ["practicar", "enviar", "organizar"]},
+        {verb: "planificar", trans: "To plan activities", desc: "You decide in advance what activities to do and when to do them.", options: ["completar", "planificar", "firmar"]},
+        {verb: "conversar", trans: "To converse with a colleague", desc: "You have a conversation with a colleague during a break.", options: ["archivar", "conversar", "revisar"]},
+        {verb: "enviar", trans: "To send an email", desc: "You click “Send” so that an email goes to another person.", options: ["enviar", "preparar", "consultar"]},
+        {verb: "llamar", trans: "To call by phone", desc: "You use the telephone to speak to someone at another institution.", options: ["estudiar", "organizar", "llamar"]},
+        {verb: "visitar", trans: "To visit another office", desc: "You go to another office to spend some time there with its staff.", options: ["firmar", "visitar", "completar"]},
+        {verb: "consultar", trans: "To consult a specialist", desc: "You ask a specialist for advice or information about a particular topic.", options: ["consultar", "archivar", "practicar"]},
+        {verb: "contactar", trans: "To contact a supplier", desc: "You get in touch with a supplier for the first time, by email or telephone.", options: ["preparar", "estudiar", "contactar"]},
+        {verb: "firmar", trans: "To sign an official document", desc: "You write your signature at the bottom of an official document.", options: ["revisar", "firmar", "enviar"]},
+        {verb: "estudiar", trans: "To study Spanish notes", desc: "You spend time with your Spanish textbook and notes to prepare for class.", options: ["estudiar", "visitar", "coordinar"]},
+        {verb: "revisar", trans: "To check a report", desc: "You check a report carefully to find possible errors.", options: ["conversar", "llamar", "revisar"]},
+        {verb: "completar", trans: "To complete a form", desc: "You fill in all the empty sections of a form with the required information.", options: ["contactar", "completar", "planificar"]},
+        {verb: "archivar", trans: "To file documents", desc: "You put documents in the correct folders so that you can find them later.", options: ["archivar", "consultar", "organizar"]},
+        {verb: "practicar", trans: "To practice the presentation", desc: "You rehearse your presentation several times before the meeting.", options: ["gestionar", "firmar", "practicar"]},
+        {verb: "leer", trans: "To read a report", desc: "You look at the written words in a report to find out what it says.", options: ["beber", "leer", "aprender"]},
+        {verb: "responder", trans: "To answer a question", desc: "You give an answer to a colleague’s question or request.", options: ["responder", "acceder", "depender"]},
+        {verb: "comprender", trans: "To understand instructions", desc: "You understand the meaning of the instructions in a document.", options: ["vender", "correr", "comprender"]},
+        {verb: "aprender", trans: "To learn Spanish", desc: "You gain new knowledge or skills, such as how to communicate in Spanish.", options: ["suspender", "aprender", "comer"]},
+        {verb: "acceder", trans: "To access the platform", desc: "You enter an online platform to use its information and services.", options: ["acceder", "comprender", "vender"]},
+        {verb: "depender", trans: "To depend on another department", desc: "You need another department’s authorization before you can continue your work.", options: ["leer", "responder", "depender"]},
+        {verb: "vender", trans: "To sell a service", desc: "You give a product or provide a service to a customer in exchange for money.", options: ["aprender", "vender", "beber"]},
+        {verb: "comer", trans: "To have lunch", desc: "You have food, such as chicken and vegetables, for lunch.", options: ["comer", "correr", "acceder"]},
+        {verb: "beber", trans: "To drink water", desc: "You drink water from a glass during a break.", options: ["proceder", "leer", "beber"]},
+        {verb: "correr", trans: "To run in the park", desc: "You move quickly on foot in the park as a form of exercise.", options: ["comprender", "correr", "responder"]},
+        {verb: "suspender", trans: "To suspend an activity", desc: "You temporarily stop an activity because of an unexpected problem.", options: ["suspender", "aprender", "vender"]},
+        {verb: "proceder", trans: "To proceed with the process", desc: "You proceed with the next step after receiving authorization.", options: ["depender", "beber", "proceder"]}
+    ];
+
+    let currentIndex = 0;
+    let quizIndex = 0;
+    let isFlipped = false;
+    let score = 0;
+    let answeredQuiz = {};
+
+    function switchTab(index) {
+        document.querySelectorAll('.tab').forEach((t, i) => {
+            t.classList.toggle('active', i === index);
+        });
+        document.querySelectorAll('.section').forEach((s, i) => {
+            s.classList.toggle('active', i === index);
+        });
+        if(index === 1) renderQuizItem();
+    }
+
+    function updateCard() {
+        const item = vocabulary[currentIndex];
+        const cardBox = document.getElementById('flashcard');
+        isFlipped = false;
+        cardBox.classList.remove('card-back');
+        
+        document.getElementById('card-content').innerHTML = `
+            <p style="font-size: 24px; font-weight: bold; color: var(--primary-blue); margin: 0 0 10px 0;">${item.verb}</p>
+            <span style="font-size: 12px; color: #718096;">Toca la tarjeta para ver el equivalente en inglés</span>
+        `;
+        document.getElementById('card-counter').innerText = `${currentIndex + 1} / ${vocabulary.length}`;
+    }
+
+    function flipCard() {
+        const item = vocabulary[currentIndex];
+        const cardBox = document.getElementById('flashcard');
+        isFlipped = !isFlipped;
+        
+        if(isFlipped) {
+            cardBox.classList.add('card-back');
+            document.getElementById('card-content').innerHTML = `
+                <div style="font-size: 18px; font-weight: bold; color: var(--accent-blue);">${item.trans}</div>
+            `;
+        } else {
+            cardBox.classList.remove('card-back');
+            document.getElementById('card-content').innerHTML = `
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-blue); margin: 0 0 10px 0;">${item.verb}</p>
+                <span style="font-size: 12px; color: #718096;">Toca la tarjeta para ver el equivalente en inglés</span>
+            `;
+        }
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % vocabulary.length;
+        updateCard();
+    }
+
+    function prevCard() {
+        currentIndex = (currentIndex - 1 + vocabulary.length) % vocabulary.length;
+        updateCard();
+    }
+
+    function renderQuizItem() {
+        const item = vocabulary[quizIndex];
+        document.getElementById('quiz-counter').innerText = `Pregunta ${quizIndex + 1} de ${vocabulary.length}`;
+        document.getElementById('quiz-desc').innerText = item.desc;
+        
+        let optionsContainer = document.getElementById('quiz-options');
+        optionsContainer.innerHTML = '';
+        
+        // Mantener orden mezclado o estable por pregunta guardada
+        if (!window.shuffledOpts) window.shuffledOpts = {};
+        if (!window.shuffledOpts[quizIndex]) {
+            window.shuffledOpts[quizIndex] = [...item.options].sort(() => Math.random() - 0.5);
+        }
+        let currentOptions = window.shuffledOpts[quizIndex];
+
+        currentOptions.forEach(opt => {
+            let btn = document.createElement('div');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            
+            // Comprobar si ya fue respondida
+            if (answeredQuiz[quizIndex] !== undefined) {
+                if (opt === item.verb) btn.classList.add('correct');
+                if (opt === answeredQuiz[quizIndex] && answeredQuiz[quizIndex] !== item.verb) btn.classList.add('incorrect');
+            }
+
+            btn.onclick = () => checkAnswer(opt, item.verb);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, correct) {
+        if (answeredQuiz[quizIndex] !== undefined) return; // Ya respondida
+        answeredQuiz[quizIndex] = selected;
+
+        if (selected === correct) {
+            score++;
+            document.getElementById('score-text').innerText = `Puntaje final: ${score} / ${vocabulary.length}`;
+        }
+        renderQuizItem();
+    }
+
+    function nextQuiz() {
+        quizIndex = (quizIndex + 1) % vocabulary.length;
+        renderQuizItem();
+    }
+
+    function prevQuiz() {
+        quizIndex = (quizIndex - 1 + vocabulary.length) % vocabulary.length;
+        renderQuizItem();
+    }
+
+    updateCard();
+</script>
+
+</body>
+</html>
